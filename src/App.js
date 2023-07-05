@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 function App() {
   const [tutorials, setTutorials] = useState([]);
@@ -21,16 +22,7 @@ function App() {
     }
   };
 
-  const getTutorialById = async (id) => {
-    try {
-      const response = await axios.get(`http://localhost:8082/api/tutorials/${id}`);
-      setTutorials([response.data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const addTutorial = async () => {
+  const saveTutorial = async () => {
     const tutorial = { title, description, published };
 
     try {
@@ -46,7 +38,7 @@ function App() {
 
   const deleteTutorial = async (id) => {
     try {
-      await axios.delete(`http://localhost8082/api/tutorials/${id}`);
+      await axios.delete(`http://localhost:8082/api/tutorials/${id}`);
       getAllTutorials();
     } catch (error) {
       console.log(error);
@@ -74,7 +66,7 @@ function App() {
         <div className="col-md-6">
           <div className="mb-3">
             <h2>Add Tutorial</h2>
-            <form onSubmit={addTutorial}>
+            <form onSubmit={saveTutorial}>
               <div className="mb-3">
                 <label htmlFor="title" className="form-label">Title:</label>
                 <input type="text" id="title" name="title" value={title} onChange={handleInputChange} className="form-control" required />
@@ -105,7 +97,6 @@ function App() {
                       <p><strong>Published:</strong> {tutorial.published ? 'Yes' : 'No'}</p>
                     </div>
                     <div>
-                      <button onClick={() => getTutorialById(tutorial.id)} className="btn btn-info">Edit</button>
                       <button onClick={() => deleteTutorial(tutorial.id)} className="btn btn-danger">Delete</button>
                     </div>
                   </li>
